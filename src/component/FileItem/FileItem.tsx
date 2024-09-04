@@ -1,9 +1,13 @@
-import React from 'react';
+import React from 'react'
+import styles from './index.module.scss'
 
-// import { Container } from './styles';
 
 const FileItem: React.FC = () => {
-  return <div />;
+    return (
+        <div className={styles.container}>
+            <div></div>
+        </div>
+    )
 }
 
-export default FileItem;
+export default FileItem

@@ -1,0 +1,28 @@
+// ContextMenu.module.scss
+// index.module.scss (Menu 组件的样式文件)
+.menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #cccccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 200px;
+    padding: 10px;
+    border-radius: 4px;
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        padding: 8px 8px;
+        cursor: pointer;
+        width: 100%;
+        box-sizing: border-box;
+        &:hover {
+            background-color: $li-hover;
+        }
+    }
+}
