@@ -22,3 +22,11 @@
 1. 封装底层 Drag
 2. 使用简单
 3. 动画效果
+
+# 物料尺寸改变 解决方案
+文档：https://www.npmjs.com/package/re-resizable
+使用 re-resizable 尺寸库
+原因：
+
+1. 封装底层 Drag
+2. 使用简单

@@ -1,36 +1,40 @@
+// Overall.tsx
 import React, { useState } from 'react'
-import { DndContext } from '@dnd-kit/core'
 import styles from './index.module.scss'
 import FileItem from '@/component/FileItem/FileItem'
 import Menu from '@/component/Menu/Menu'
-import type { FileItemProps } from './type'
+import type { ItemProps } from './type'
 
 const Overall: React.FC = () => {
-    // 菜单信息
     const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 })
-    const [items, setItems] = useState<FileItemProps[]>([])
+    const [items, setItems] = useState<ItemProps[]>([])
 
-    // 显示菜单
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
+        const x = event.pageX
+        const y = event.pageY
+
         setMenu({
             visible: true,
-            x: event.clientX,
-            y: event.clientY,
+            x,
+            y,
         })
     }
 
-    // 处理菜单项选择
     const handleMenuSelect = (action: string) => {
+        const { x, y } = menu
         switch (action) {
             case 'FileItem':
-                setItems([...items, { type: 'fileItem', id: Date.now() }])
+                setItems([...items, { type: 'fileItem', id: Date.now(), x, y }])
                 break
             case 'TextItem':
-                setItems([...items, { type: 'fileItem', id: Date.now() }])
+                setItems([...items, { type: 'textItem', id: Date.now(), x, y }])
                 break
             case 'ImageItem':
-                setItems([...items, { type: 'fileItem', id: Date.now() }])
+                setItems([
+                    ...items,
+                    { type: 'imageItem', id: Date.now(), x, y },
+                ])
                 break
             default:
                 alert('错误')
@@ -39,28 +43,60 @@ const Overall: React.FC = () => {
         handleCloseMenu()
     }
 
-    // 关闭菜单
     const handleCloseMenu = () => {
         setMenu({ visible: false, x: 0, y: 0 })
     }
 
     return (
         <div className={styles.container} onContextMenu={handleContextMenu}>
-            <DndContext>
-                {items.map(
-                    (item) =>
-                        item.type === 'fileItem' && <FileItem key={item.id} />
-                )}
-                {menu.visible && (
-                    <Menu
-                        x={menu.x}
-                        y={menu.y}
-                        visible={menu.visible}
-                        onClose={handleCloseMenu}
-                        onSelect={handleMenuSelect}
-                    />
-                )}
-            </DndContext>
+            {items.map((item) => {
+                switch (item.type) {
+                    case 'fileItem':
+                        return (
+                            <FileItem
+                                key={item.id}
+                                id={item.id}
+                                x={item.x}
+                                y={item.y}
+                            />
+                        )
+                    case 'textItem':
+                        return (
+                            <div
+                                key={item.id}
+                                style={{
+                                    position: 'absolute',
+                                    transform: `translate3d(${item.x}px, ${item.y}px, 0)`,
+                                }}
+                            >
+                                Text Item {item.id}
+                            </div>
+                        )
+                    case 'imageItem':
+                        return (
+                            <div
+                                key={item.id}
+                                style={{
+                                    position: 'absolute',
+                                    transform: `translate3d(${item.x}px, ${item.y}px, 0)`,
+                                }}
+                            >
+                                Image Item {item.id}
+                            </div>
+                        )
+                    default:
+                        return null
+                }
+            })}
+            {menu.visible && (
+                <Menu
+                    x={menu.x}
+                    y={menu.y}
+                    visible={menu.visible}
+                    onClose={handleCloseMenu}
+                    onSelect={handleMenuSelect}
+                />
+            )}
         </div>
     )
 }

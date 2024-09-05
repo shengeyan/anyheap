@@ -13,10 +13,10 @@ const Menu: React.FC<MenuProps> = ({ x, y, visible, onClose, onSelect }) => {
         >
             <ul>
                 <li onClick={() => onSelect('FileItem')}>
-                    📃 &nbsp; Add File Item
+                    🗂️&nbsp; Add File Item
                 </li>
                 <li onClick={() => onSelect('TextItem')}>
-                    🔠 &nbsp; Add Text Item
+                    🔠&nbsp; Add Text Item
                 </li>
                 <li onClick={() => onSelect('ImageItem')}>
                     🗺️&nbsp; Add Image Item

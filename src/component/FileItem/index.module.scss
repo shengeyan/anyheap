@@ -8,10 +8,14 @@
     min-width: 60px;
     min-height: 60px;
 
-    //common 采用黄金比例
+    //common
     width: 80px;
     height: 80px;
 
     border-radius: 15%;
     border: 2px solid $boder-line;
+
+    // resize: both;
+    // overflow: auto;
+    cursor: nwse-resize;
 }
