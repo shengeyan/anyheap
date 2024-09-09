@@ -26,6 +26,10 @@ const FileItem: React.FC<FileProps> = ({ id, x, y }) => {
         })
     }
     return (
+        
+
+
+
         <Rnd
             className={styles.container}
             size={{ width: size.width, height: size.height }}

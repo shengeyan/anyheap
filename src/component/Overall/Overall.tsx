@@ -3,12 +3,21 @@ import React, { useState } from 'react'
 import styles from './index.module.scss'
 import FileItem from '@/component/FileItem/FileItem'
 import Menu from '@/component/Menu/Menu'
+import SGYModal from '@/component/SGYModal.tsx/SGYModal'
 import type { ItemProps } from './type'
 
 const Overall: React.FC = () => {
     const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 })
     const [items, setItems] = useState<ItemProps[]>([])
+    const [modal, setModal] = useState(false)
+    const [finishCreate, setFinishCreate] = useState(false)
 
+    // Data Upload Change Function
+    const onModalClick = () => {
+        setModal(false)
+    }
+
+    // Arousal menu Function
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
         const x = event.pageX
@@ -21,8 +30,11 @@ const Overall: React.FC = () => {
         })
     }
 
+    // Select menu  Function
     const handleMenuSelect = (action: string) => {
         const { x, y } = menu
+        setModal(true)
+
         switch (action) {
             case 'FileItem':
                 setItems([...items, { type: 'fileItem', id: Date.now(), x, y }])
@@ -43,12 +55,14 @@ const Overall: React.FC = () => {
         handleCloseMenu()
     }
 
+    // close menu Function
     const handleCloseMenu = () => {
         setMenu({ visible: false, x: 0, y: 0 })
     }
 
     return (
         <div className={styles.container} onContextMenu={handleContextMenu}>
+            {/* Render Item */}
             {items.map((item) => {
                 switch (item.type) {
                     case 'fileItem':
@@ -88,6 +102,7 @@ const Overall: React.FC = () => {
                         return null
                 }
             })}
+            {/* Menu Select */}
             {menu.visible && (
                 <Menu
                     x={menu.x}
@@ -97,6 +112,8 @@ const Overall: React.FC = () => {
                     onSelect={handleMenuSelect}
                 />
             )}
+            {/* Modal */}
+            {modal && <SGYModal onModalClick={onModalClick} />}
         </div>
     )
 }

@@ -1,7 +1,8 @@
 # TODO：
- 1. 解决组塞问题
- 2. 解决加锁问题
- 3. 解决同步过程问题
+
+1.  解决组塞问题
+2.  解决加锁问题
+3.  解决同步过程问题
 
 # Websocket 解决方案
 
@@ -24,9 +25,14 @@
 3. 动画效果
 
 # 物料尺寸改变 解决方案
+
 文档：https://www.npmjs.com/package/re-resizable
 使用 re-resizable 尺寸库
 原因：
 
 1. 封装底层 Drag
 2. 使用简单
+
+# draggable 解决方案
+
+文档：https://shopify.github.io/draggable/
