@@ -14,13 +14,17 @@ const FileItem: React.FC<FileProps> = ({ id, x, y }) => {
     }
 
     // Size change Function
-    const handleResizeStop = (ref: any) => {
+    const handleResizeStop = (
+        e: any,
+        direction: any,
+        ref: HTMLElement,
+        delta: any
+    ) => {
         setSize({
             width: ref.offsetWidth,
             height: ref.offsetHeight,
         })
     }
-
     return (
         <Rnd
             className={styles.container}
