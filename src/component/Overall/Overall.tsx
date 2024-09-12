@@ -107,7 +107,14 @@ const Overall: React.FC = () => {
                             />
                         )
                     case 'textItem':
-                        return <TextItem key={item.id} />
+                        return (
+                            <TextItem
+                                key={item.id}
+                                id={item.id}
+                                x={item.x}
+                                y={item.y}
+                            />
+                        )
                     case 'imageItem':
                         return (
                             <div

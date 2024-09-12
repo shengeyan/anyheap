@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
+import { TextItemProps } from './type'
+import { Rnd } from 'react-rnd'
 
-interface TextItemProps {
-    initialText?: string // 父组件可以传递的初始文本
-}
-
-const TextItem: React.FC<TextItemProps> = ({ initialText = '' }) => {
-    const [text, setText] = useState(initialText) // 用户输入的文本内容
-    const [isEditing, setIsEditing] = useState(false) // 是否处于编辑模式
+const TextItem: React.FC<TextItemProps> = ({ id, x, y, initialText }) => {
+    const [text, setText] = useState(initialText || null)
+    const [isEditing, setIsEditing] = useState(false)
 
     // 切换到编辑模式
     const handleDoubleClick = () => {
@@ -33,25 +31,46 @@ const TextItem: React.FC<TextItemProps> = ({ initialText = '' }) => {
     }
 
     return (
-        <div className={styles.textItemContainer}>
-            {isEditing ? (
-                <textarea
-                    className={styles.textArea}
-                    value={text}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown} // 按下回车保存并退出编辑模式
-                    onBlur={handleBlur} // 失去焦点时保存并退出编辑模式
-                    autoFocus // 自动聚焦输入框
-                />
-            ) : (
-                <div
-                    onDoubleClick={handleDoubleClick}
-                    className={styles.textDisplay}
-                >
-                    {text || '双击开始编辑...'} {/* 如果没有内容，提示用户 */}
-                </div>
-            )}
-        </div>
+        <Rnd
+            className={styles.container}
+            // size={{ width: size.width, height: size.height }}
+            // position={{ x: position.x, y: position.y }}
+            // onDragStop={handleDragStop}
+            // onResizeStop={handleResizeStop}
+            minWidth={60}
+            minHeight={60}
+            enableResizing={{
+                top: false,
+                right: true,
+                bottom: true,
+                left: false,
+                topRight: false,
+                bottomRight: true,
+                bottomLeft: false,
+                topLeft: false,
+            }}
+        >
+            <div className={styles.textItemContainer}>
+                {isEditing ? (
+                    <textarea
+                        className={styles.textArea}
+                        value={text}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown} // 按下回车保存并退出编辑模式
+                        onBlur={handleBlur} // 失去焦点时保存并退出编辑模式
+                        autoFocus // 自动聚焦输入框
+                    />
+                ) : (
+                    <div
+                        onDoubleClick={handleDoubleClick}
+                        className={styles.textDisplay}
+                    >
+                        {text || '双击开始编辑...'}{' '}
+                        {/* 如果没有内容，提示用户 */}
+                    </div>
+                )}
+            </div>
+        </Rnd>
     )
 }
 
