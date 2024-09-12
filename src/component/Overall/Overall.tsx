@@ -10,14 +10,41 @@ const Overall: React.FC = () => {
     const [menu, setMenu] = useState({ visible: false, x: 0, y: 0 })
     const [items, setItems] = useState<ItemProps[]>([])
     const [modal, setModal] = useState(false)
-    const [finishCreate, setFinishCreate] = useState(false)
+    const [itemType, setItemType] = useState<string>('')
+    const [savedPosition, setSavedPosition] = useState({ x: 0, y: 0 })
 
     // Data Upload Change Function
     const onModalClick = (flag: boolean) => {
+        console.log('flag:', flag)
+        const { x, y } = savedPosition
+        console.log('x:', x, 'y:', y)
         if (flag) {
-            setFinishCreate(true)
+            switch (itemType) {
+                case 'FileItem':
+                    setItems([
+                        ...items,
+                        { type: 'fileItem', id: Date.now(), x, y },
+                    ])
+                    break
+                case 'TextItem':
+                    setItems([
+                        ...items,
+                        { type: 'textItem', id: Date.now(), x, y },
+                    ])
+                    break
+                case 'ImageItem':
+                    setItems([
+                        ...items,
+                        { type: 'imageItem', id: Date.now(), x, y },
+                    ])
+                    break
+                default:
+                    alert('错误')
+                    break
+            }
         }
         setModal(false)
+        handleCloseMenu()
     }
 
     // Arousal menu Function
@@ -39,29 +66,9 @@ const Overall: React.FC = () => {
     // Select menu  Function
     const handleMenuSelect = (action: string) => {
         const { x, y } = menu
+        setSavedPosition({ x, y })
         setModal(true)
-
-        switch (action) {
-            case 'FileItem':
-                if (!finishCreate) return
-                setItems([...items, { type: 'fileItem', id: Date.now(), x, y }])
-                break
-            case 'TextItem':
-                if (!finishCreate) return
-                setItems([...items, { type: 'textItem', id: Date.now(), x, y }])
-                break
-            case 'ImageItem':
-                if (!finishCreate) return
-                setItems([
-                    ...items,
-                    { type: 'imageItem', id: Date.now(), x, y },
-                ])
-                break
-            default:
-                alert('错误')
-                break
-        }
-        handleCloseMenu()
+        setItemType(action)
     }
 
     // close menu Function
