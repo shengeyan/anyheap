@@ -13,13 +13,19 @@ const Overall: React.FC = () => {
     const [finishCreate, setFinishCreate] = useState(false)
 
     // Data Upload Change Function
-    const onModalClick = () => {
+    const onModalClick = (flag: boolean) => {
+        if (flag) {
+            setFinishCreate(true)
+        }
         setModal(false)
     }
 
     // Arousal menu Function
     const handleContextMenu = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault()
+        if (modal) {
+            return
+        }
         const x = event.pageX
         const y = event.pageY
 
@@ -37,12 +43,15 @@ const Overall: React.FC = () => {
 
         switch (action) {
             case 'FileItem':
+                if (!finishCreate) return
                 setItems([...items, { type: 'fileItem', id: Date.now(), x, y }])
                 break
             case 'TextItem':
+                if (!finishCreate) return
                 setItems([...items, { type: 'textItem', id: Date.now(), x, y }])
                 break
             case 'ImageItem':
+                if (!finishCreate) return
                 setItems([
                     ...items,
                     { type: 'imageItem', id: Date.now(), x, y },

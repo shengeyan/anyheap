@@ -15,8 +15,7 @@ const SGYModal: React.FC<ModalProps> = ({ onModalClick }) => {
     const props: UploadProps = {
         name: 'file',
         multiple: false,
-        // TODO：存储地址
-        action: 'https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload',
+        action: 'https://heap.crazyfay.com/upload',
         onChange(info) {
             const { status } = info.file
             if (status !== 'uploading') {
@@ -24,10 +23,11 @@ const SGYModal: React.FC<ModalProps> = ({ onModalClick }) => {
             }
             if (status === 'done') {
                 message.success(`${info.file.name} file uploaded successfully.`)
+                onModalClick(true)
             } else if (status === 'error') {
                 message.error(`${info.file.name} file upload failed.`)
+                onModalClick(false)
             }
-            onModalClick()
         },
         onDrop(e) {
             console.log('Dropped files', e.dataTransfer.files)
@@ -35,15 +35,15 @@ const SGYModal: React.FC<ModalProps> = ({ onModalClick }) => {
     }
 
     // Submit
-    const handleOk = () => {
-        setIsModalOpen(false)
-        onModalClick()
-    }
+    // const handleOk = () => {
+    //     setIsModalOpen(false)
+    //     onModalClick()
+    // }
 
     // Cancel
     const handleCancel = () => {
         setIsModalOpen(false)
-        onModalClick()
+        onModalClick(false)
     }
 
     return (
@@ -51,7 +51,6 @@ const SGYModal: React.FC<ModalProps> = ({ onModalClick }) => {
             <Modal
                 title="上传数据"
                 open={isModalOpen}
-                onOk={handleOk}
                 onCancel={handleCancel}
                 footer={null}
             >

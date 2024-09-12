@@ -1,3 +1,3 @@
 export interface ModalProps {
-  onModalClick: () => void
+    onModalClick: (flag: boolean) => void
 }
