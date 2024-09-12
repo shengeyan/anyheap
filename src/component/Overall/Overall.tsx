@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import styles from './index.module.scss'
 import FileItem from '@/component/FileItem/FileItem'
+import TextItem from '@/component/TextItem/TextItem'
 import Menu from '@/component/Menu/Menu'
 import SGYModal from '@/component/SGYModal.tsx/SGYModal'
 import type { ItemProps } from './type'
@@ -15,9 +16,7 @@ const Overall: React.FC = () => {
 
     // Data Upload Change Function
     const onModalClick = (flag: boolean) => {
-        console.log('flag:', flag)
         const { x, y } = savedPosition
-        console.log('x:', x, 'y:', y)
         if (flag) {
             switch (itemType) {
                 case 'FileItem':
@@ -67,8 +66,14 @@ const Overall: React.FC = () => {
     const handleMenuSelect = (action: string) => {
         const { x, y } = menu
         setSavedPosition({ x, y })
-        setModal(true)
         setItemType(action)
+
+        if (itemType == 'TextItem') {
+            setItems([...items, { type: 'textItem', id: Date.now(), x, y }])
+            handleCloseMenu()
+            return
+        }
+        setModal(true)
     }
 
     // close menu Function
@@ -76,8 +81,19 @@ const Overall: React.FC = () => {
         setMenu({ visible: false, x: 0, y: 0 })
     }
 
+    // Create TextItem Function
+    const handleDoubleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+        const x = event.pageX
+        const y = event.pageY
+        setItems([...items, { type: 'textItem', id: Date.now(), x, y }])
+    }
+
     return (
-        <div className={styles.container} onContextMenu={handleContextMenu}>
+        <div
+            className={styles.container}
+            onContextMenu={handleContextMenu}
+            onDoubleClick={handleDoubleClick}
+        >
             {/* Render Item */}
             {items.map((item) => {
                 switch (item.type) {
@@ -91,17 +107,7 @@ const Overall: React.FC = () => {
                             />
                         )
                     case 'textItem':
-                        return (
-                            <div
-                                key={item.id}
-                                style={{
-                                    position: 'absolute',
-                                    transform: `translate3d(${item.x}px, ${item.y}px, 0)`,
-                                }}
-                            >
-                                Text Item {item.id}
-                            </div>
-                        )
+                        return <TextItem key={item.id} />
                     case 'imageItem':
                         return (
                             <div
